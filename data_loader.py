@@ -71,7 +71,11 @@ class MultiClassDataLoader(object):
             class_vectors = {}
             for i, cls in enumerate(classes):
                 class_vectors[cls] = one_hot_vectors[i]
-                
+
+            print("Show Classes")
+            for key in class_vectors.keys():
+                print(key,":",class_vectors[key])
+
             # 클래스 벡터 생성 후에 각 라인에 대해 리뷰 데이터 마다 라벨 벡터를 연결할 것.
             # 형태소 분석 정제 처리
             tsvin = csv.reader(tsvin, delimiter=',')
