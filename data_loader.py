@@ -81,9 +81,7 @@ class MultiClassDataLoader(object):
 
                 vector = np.zeros(len(classes), dtype=int)
 
-                if row[1] == '':
-                    break
-                else:
+                if row[1] is not '':
                     for r in row[1].split('/'):
                         vector += class_vectors[r]
                 y.append(vector)
