@@ -1,5 +1,6 @@
 import numpy as np
 import csv
+import sys
 
 class MultiClassDataLoader(object):
     """
@@ -80,6 +81,7 @@ class MultiClassDataLoader(object):
             # 형태소 분석 정제 처리
             tsvin = csv.reader(tsvin, delimiter=',')
             next(tsvin, None)
+
             for row in tsvin:
                 data = self.__data_processor.clean_data(row[0])
                 x_text.append(data)
@@ -104,3 +106,13 @@ class MultiClassDataLoader(object):
             self.__train_data_file = self.__flags.FLAGS.train_data_file
             self.__val_data_file = self.__flags.FLAGS.val_data_file
             self.__class_data_file = self.__flags.FLAGS.class_data_file
+
+    def printProgress (self, iteration, total, prefix = '', suffix = '', decimals = 1, barLength = 100):
+        formatStr = "{0:." + str(decimals) + "f}"
+        percent = formatStr.format(100 * (iteration / float(total)))
+        filledLength = int(round(barLength * iteration / float(total)))
+        bar = '#' * filledLength + '-' * (barLength - filledLength)
+        sys.stdout.write('\r%s |%s| %s%s %s' % (prefix, bar, percent, '%', suffix)),
+        if iteration == total:
+            sys.stdout.write('\n')
+        sys.stdout.flush()
