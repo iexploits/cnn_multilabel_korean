@@ -78,12 +78,13 @@ class MultiClassDataLoader(object):
             for row in tsvin:
                 data = self.__data_processor.clean_data(row[0])
                 x_text.append(data)
-                
+
                 vector = np.zeros(len(classes), dtype=int)
+
                 if row[1] == '':
                     break
                 else:
-                    for r in row[1].split(''):
+                    for r in row[1].split('/'):
                         vector += class_vectors[r]
                 y.append(vector)
         return [x_text, np.array(y)]
