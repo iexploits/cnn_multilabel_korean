@@ -110,7 +110,7 @@ with tf.Graph().as_default():
         train_summary_writer = tf.train.SummaryWriter(train_summary_dir, sess.graph)
 
         # Val summaries
-        val_summary_op = tf.merge_summary([loss_summary, acc_summary])
+        val_summary_op = tf.summary.merge([loss_summary, acc_summary])
         val_summary_dir = os.path.join(out_dir, "summaries", "val")
         val_summary_writer = tf.summary.FileWriter(val_summary_dir, sess.graph)
 
