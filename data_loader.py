@@ -32,8 +32,8 @@ class MultiClassDataLoader(object):
         # no Attr for str.decode Issue !!!
         # change doc.decode("utf-8") to doc / cause i think them already in utf-8
         # 2018. 11. 19 changes.
-        max_doc_len = max([len(doc.decode("utf-8")) for doc in x_train])
-        max_doc_len_val = max([len(doc.decode("utf-8")) for doc in x_val])
+        max_doc_len = max([len(doc) for doc in x_train])
+        max_doc_len_val = max([len(doc) for doc in x_val])
         if max_doc_len_val > max_doc_len:
             max_doc_len = max_doc_len_val
         # Build vocabulary
