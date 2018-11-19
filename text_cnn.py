@@ -53,8 +53,10 @@ class TextCNN(object):
                 pooled_outputs.append(pooled)
 
         # Combine all the pooled features
+        # self.h_pool issues : TypeError: Expected int32, got list containing Tensors of type '_Message' instead.
+        # 2018. 11. 19 - change its parameters.
         num_filters_total = num_filters * len(filter_sizes)
-        self.h_pool = tf.concat(3, pooled_outputs)
+        self.h_pool = tf.concat(pooled_outputs,3)
         self.h_pool_flat = tf.reshape(self.h_pool, [-1, num_filters_total])
 
         # Add dropout

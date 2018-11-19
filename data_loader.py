@@ -29,6 +29,9 @@ class MultiClassDataLoader(object):
         x_train, y_train = self.__load_data_and_labels(self.__train_data_file)
         x_val, y_val = self.__load_data_and_labels(self.__val_data_file)
 
+        # no Attr for str.decode Issue !!!
+        # change doc.decode("utf-8") to doc / cause i think them already in utf-8
+        # 2018. 11. 19 changes.
         max_doc_len = max([len(doc.decode("utf-8")) for doc in x_train])
         max_doc_len_val = max([len(doc.decode("utf-8")) for doc in x_val])
         if max_doc_len_val > max_doc_len:
@@ -73,9 +76,7 @@ class MultiClassDataLoader(object):
             for i, cls in enumerate(classes):
                 class_vectors[cls] = one_hot_vectors[i]
 
-            print("Show Classes")
-            for key in class_vectors.keys():
-                print(key,":",class_vectors[key])
+            print("##### Mapping Classes Completed : ", data_file)
 
             # 클래스 벡터 생성 후에 각 라인에 대해 리뷰 데이터 마다 라벨 벡터를 연결할 것.
             # 형태소 분석 정제 처리
