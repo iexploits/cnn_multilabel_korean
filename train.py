@@ -167,7 +167,7 @@ with tf.Graph().as_default():
             feed_dict = {
               cnn.input_x: x_batch,
               cnn.input_y: y_batch,
-              cnn.dropout_keep_prob: 1.0
+              cnn.dropout_keep_prob: 1.0,
               cnn.embedding_placeholder: embedding
             }
             step, summaries, loss, accuracy = sess.run(
