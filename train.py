@@ -16,6 +16,10 @@ import pickle
 # ==================================================
 
 # Model Hyperparameters
+tf.flags.DEFINE_integer(
+    'fasttext_embedding_dim', 300,
+'Dimensionality of fasttext word vector (default: 300)')
+
 tf.flags.DEFINE_integer("embedding_dim", 128, "Dimensionality of character embedding (default: 128)")
 tf.flags.DEFINE_string("filter_sizes", "3,4,5", "Comma-separated filter sizes (default: '3,4,5')")
 tf.flags.DEFINE_integer("num_filters", 128, "Number of filters per filter size (default: 128)")
@@ -62,7 +66,7 @@ with open('./data/fasttext_vocab_ko.dat', 'rb') as fr:
 embedding = np.load('./data/fasttext_embedding_ko.npy')
 
 pretrain = vocab_processor.fit(vocab.keys())
-x = np.array(list(vocab_processor.transform(x_train.join(x_val))))
+x = np.array(list(vocab_processor.transform(x_train)))
 
 embedding_size = FLAGS.fasttext_embedding_dim
 vocab_size = len(vocab)
