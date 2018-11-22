@@ -57,9 +57,9 @@ vocab_processor = data_loader.vocab_processor
 
 # 2018. 11. 22 - Add-On Loading Pretrained FastText Word Vectors
 print('Load Pre-Trained Korean FastText')
-with open('/data/fasttext_vocab_ko.dat', 'rb') as fr:
+with open('./data/fasttext_vocab_ko.dat', 'rb') as fr:
     vocab = pickle.load(fr)
-embedding = np.load('/data/fasttext_embedding_ko.npy')
+embedding = np.load('./data/fasttext_embedding_ko.npy')
 
 pretrain = vocab_processor.fit(vocab.keys())
 x = np.array(list(vocab_processor.transform(x_train.join(x_val))))

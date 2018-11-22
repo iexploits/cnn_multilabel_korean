@@ -52,7 +52,7 @@ x_test = np.array(list(vocab_processor.transform(x_raw)))
 
 # 2018. 11. 22 - Add-on for pretrained vectors
 print('Load pre-trained word vectors')
-embedding = np.load('/data/fasttext_embedding_ko.npy')
+embedding = np.load('./data/fasttext_embedding_ko.npy')
 
 print("\nEvaluating...\n")
 
