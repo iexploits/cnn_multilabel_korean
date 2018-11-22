@@ -66,7 +66,6 @@ with open('./data/fasttext_vocab_ko.dat', 'rb') as fr:
 embedding = np.load('./data/fasttext_embedding_ko.npy')
 
 pretrain = vocab_processor.fit(vocab.keys())
-x = np.array(list(vocab_processor.transform(x_train)))
 
 embedding_size = FLAGS.fasttext_embedding_dim
 vocab_size = len(vocab)
