@@ -83,11 +83,12 @@ with tf.Graph().as_default():
       log_device_placement=FLAGS.log_device_placement)
     sess = tf.Session(config=session_conf)
     with sess.as_default():
+        #2018.11.22 - configure Embedding Size for obtaining pretrained layer
         cnn = TextCNN(
             sequence_length=x_train.shape[1],
             num_classes=y_train.shape[1],
             vocab_size=vocab_size,
-            embedding_size=FLAGS.embedding_dim,
+            embedding_size=embedding_size,
             filter_sizes=list(map(int, FLAGS.filter_sizes.split(","))),
             num_filters=FLAGS.num_filters,
             l2_reg_lambda=FLAGS.l2_reg_lambda)
