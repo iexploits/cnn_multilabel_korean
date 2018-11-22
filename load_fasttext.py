@@ -8,6 +8,7 @@ model = KeyedVectors.load_word2vec_format('./data/wiki.ko.vec')
 vocab = model.vocab
 embeddings = np.array([model.word_vec(k) for k in vocab.keys()])
 
+print('Start Initializing Embedding Vectors ---- ')
 with open('./data/fasttext_vocab_ko.dat', 'wb') as fw:
     pickle.dump(vocab, fw, protocol=pickle.HIGHEST_PROTOCOL)
 
