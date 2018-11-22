@@ -50,6 +50,10 @@ vocab_path = os.path.join(FLAGS.checkpoint_dir, "..", "vocab")
 vocab_processor = data_loader.restore_vocab_processor(vocab_path)
 x_test = np.array(list(vocab_processor.transform(x_raw)))
 
+# 2018. 11. 22 - Add-on for pretrained vectors
+print('Load pre-trained word vectors')
+embedding = np.load('/data/fasttext_embedding_ko.npy')
+
 print("\nEvaluating...\n")
 
 # Evaluation
@@ -69,7 +73,9 @@ with graph.as_default():
         # Get the placeholders from the graph by name
         input_x = graph.get_operation_by_name("input_x").outputs[0]
         # input_y = graph.get_operation_by_name("input_y").outputs[0]
+        # 2018. 11. 22 - Add-on Pretrained FastText on Embedding Layer
         dropout_keep_prob = graph.get_operation_by_name("dropout_keep_prob").outputs[0]
+        embedding_placeholder = graph.get_operation_by_name('embedding/pre_trained').outputs[0]
 
         # Tensors we want to evaluate
         predictions = graph.get_operation_by_name("output/predictions").outputs[0]

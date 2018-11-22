@@ -68,6 +68,7 @@ class MultiClassDataLoader(object):
     def __load_data_and_labels(self, data_file):
         x_text = []
         y = []
+
         with open(data_file, 'r') as tsvin:
             classes = self.__classes()
             # 멀티핫으로 대체할 것. 배열화시키자 0100001 같이 !
@@ -86,12 +87,13 @@ class MultiClassDataLoader(object):
             for row in tsvin:
                 data = self.__data_processor.clean_data(row[0])
                 x_text.append(data)
-                vector = np.zeros(len(classes), dtype=int)
 
+                vector = np.zeros(len(classes), dtype=int)
                 if row[1] is not '':
                     for r in row[1].split('/'):
                         vector = vector + class_vectors[r]
                 y.append(vector)
+
         return [x_text, np.array(y)]
 
     def __classes(self):

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import tensorflow as tf
+import numpy as np
 import os
 import time
 import datetime
@@ -9,6 +10,7 @@ import data_helpers
 from text_cnn import TextCNN
 from data_loader import MultiClassDataLoader
 from data_processor import WordDataProcessor
+import pickle
 
 # Parameters
 # ==================================================
@@ -53,6 +55,18 @@ print("Loading data...")
 x_train, y_train, x_val, y_val = data_loader.prepare_data()
 vocab_processor = data_loader.vocab_processor
 
+# 2018. 11. 22 - Add-On Loading Pretrained FastText Word Vectors
+print('Load Pre-Trained Korean FastText')
+with open('/data/fasttext_vocab_ko.dat', 'rb') as fr:
+    vocab = pickle.load(fr)
+embedding = np.load('/data/fasttext_embedding_ko.npy')
+
+pretrain = vocab_processor.fit(vocab.keys())
+x = np.array(list(vocab_processor.transform(x_train.join(x_val))))
+
+embedding_size = FLAGS.fasttext_embedding_dim
+vocab_size = len(vocab)
+
 print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
 print("Train/Val split: {:d}/{:d}".format(len(y_train), len(y_val)))
 
@@ -69,7 +83,7 @@ with tf.Graph().as_default():
         cnn = TextCNN(
             sequence_length=x_train.shape[1],
             num_classes=y_train.shape[1],
-            vocab_size=len(vocab_processor.vocabulary_),
+            vocab_size=vocab_size,
             embedding_size=FLAGS.embedding_dim,
             filter_sizes=list(map(int, FLAGS.filter_sizes.split(","))),
             num_filters=FLAGS.num_filters,
@@ -126,6 +140,8 @@ with tf.Graph().as_default():
 
         # Initialize all variables
         sess.run(tf.global_variables_initializer())
+        # initial matrix with random uniform
+        initW = np.random.uniform(-0.25,0.25,(len(vocab_processor.vocabulary_), FLAGS.embedding_dim))
 
         def train_step(x_batch, y_batch):
             """
@@ -135,6 +151,7 @@ with tf.Graph().as_default():
               cnn.input_x: x_batch,
               cnn.input_y: y_batch,
               cnn.dropout_keep_prob: FLAGS.dropout_keep_prob
+              cnn.embedding_placeholder: embedding
             }
             _, step, summaries, loss, accuracy = sess.run(
                 [train_op, global_step, train_summary_op, cnn.loss, cnn.accuracy],
@@ -151,6 +168,7 @@ with tf.Graph().as_default():
               cnn.input_x: x_batch,
               cnn.input_y: y_batch,
               cnn.dropout_keep_prob: 1.0
+              cnn.embedding_placeholder: embedding
             }
             step, summaries, loss, accuracy = sess.run(
                 [global_step, val_summary_op, cnn.loss, cnn.accuracy],

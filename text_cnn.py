@@ -20,10 +20,17 @@ class TextCNN(object):
         l2_loss = tf.constant(0.0)
 
         # Embedding layer
+        # 2018.11.22 : Add-on FastText Pre-trained model in Embedding Layer
         with tf.device('/cpu:0'), tf.name_scope("embedding"):
-            W = tf.Variable(
+            self.W = tf.Variable(
                 tf.random_uniform([vocab_size, embedding_size], -1.0, 1.0),
                 name="W")
+            # Before Initialize Embedding chars on layer, add Pretrained FastText Models.
+            self.embedding_placeholder = tf.placeholder(
+                    tf.float32, [vocab_size, embedding_size],
+                    name='pre_trained')
+            W = tf.assign(self.W, self.embedding_placeholder)
+
             self.embedded_chars = tf.nn.embedding_lookup(W, self.input_x)
             self.embedded_chars_expanded = tf.expand_dims(self.embedded_chars, -1)
 
