@@ -21,7 +21,7 @@ class TextCNN(object):
 
         # Embedding layer
         # 2018.11.22 : Add-on FastText Pre-trained model in Embedding Layer
-        with tf.device('/cpu:0'), tf.name_scope("embedding"):
+        with tf.device('/gpu:1'), tf.name_scope("embedding"):
             self.W = tf.Variable(
                 tf.random_uniform([vocab_size, embedding_size], -1.0, 1.0),
                 name="W")
