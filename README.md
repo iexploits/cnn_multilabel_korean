@@ -13,5 +13,6 @@
  만일 해당 자료를 보고, 개선사항이 있을 것이라고 생각하시는 개발자는 글을 남겨주시기 바란다. 
  
  
- train.py >> TestSet 데이터를 통한 학습 진행
- eval.py >> EvaluationSet 데이터를 통한 평가 진행
+ train.py >> trainR.csv 데이터를 통한 학습 진행
+ 
+ eval.py >> valR.csv 데이터를 통한 평가 진행
