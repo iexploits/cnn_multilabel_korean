@@ -19,4 +19,4 @@
  
  train.py >> trainR.csv 데이터를 통한 학습 진행
  
- eval.py >> valR.csv 데이터를 통한 평가 진행
+ evaluation.py >> valR.csv 데이터를 통한 평가 진행
